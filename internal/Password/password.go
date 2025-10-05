@@ -2,7 +2,6 @@ package password
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	"gorm.io/gorm"
@@ -26,7 +25,6 @@ func (db *DB) NewPassword(password Password) error {
 	if result.Error != nil {
 		return fmt.Errorf("error insert password: %v", result.Error)
 	}
-	log.Println("Password save ✅")
 	return nil
 }
 

@@ -37,7 +37,7 @@ func (pm *PasswordManager) ListPassword() ([]password.Password, error) {
 }
 
 func (pm *PasswordManager) FindDuplicatePasswords() (map[string][]string, error) {
-	kash := make(map[string][]string)
+	cash := make(map[string][]string)
 
 	var passwords []password.Password
 	if err := pm.Passwords.ReadPassword(&passwords); err != nil {
@@ -45,11 +45,11 @@ func (pm *PasswordManager) FindDuplicatePasswords() (map[string][]string, error)
 	}
 
 	for _, v := range passwords {
-		kash[v.Value] = append(kash[v.Value], v.Name)
+		cash[v.Value] = append(cash[v.Value], v.Name)
 	}
 
 	result := make(map[string][]string)
-	for pass, names := range kash {
+	for pass, names := range cash {
 		if len(names) > 1 {
 			result[pass] = names
 		}
@@ -67,14 +67,14 @@ func (pm *PasswordManager) ListCategories() ([]string, error) {
 	}
 
 	for _, v := range passwords {
-		if v.Value != "" {
+		if v.Category != "" {
 			categories[v.Category] = true
 		}
 	}
 
 	var result []string
-	for categiry := range categories {
-		result = append(result, categiry)
+	for category := range categories {
+		result = append(result, category)
 	}
 
 	return result, nil

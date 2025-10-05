@@ -36,7 +36,7 @@ func ShowSuccess(message string) {
 }
 
 func ShowError(message error) {
-	fmt.Printf("%s%sErorr:%s%v\n", colorReset, colorRed, colorReset, message)
+	fmt.Printf("%s%sError:%s%v\n", colorReset, colorRed, colorReset, message)
 }
 
 func ShowInfo(message string) {

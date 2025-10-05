@@ -9,8 +9,8 @@ import (
 	"golang.org/x/term"
 )
 
-func ReadUserInput(promt string) (string, error) {
-	fmt.Print(promt)
+func ReadUserInput(prompt string) (string, error) {
+	fmt.Print(prompt)
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
 	if err != nil {
@@ -24,7 +24,7 @@ func ReadUserInput(promt string) (string, error) {
 func ReadPassword() (string, error) {
 	password, err := term.ReadPassword(int(os.Stdin.Fd()))
 	if err != nil {
-		return "", fmt.Errorf("ошибка чтения пароля: %v", err)
+		return "", fmt.Errorf("failed reading password: %v", err)
 	}
 
 	fmt.Println()

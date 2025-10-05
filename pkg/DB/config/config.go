@@ -33,9 +33,9 @@ func (c *DBConfig) GetConnectionString() string {
 }
 
 func getEnv(key, defaultValue string) string {
-	err := godotenv.Load("C:/Users/user/Desktop/PetProject/Password-manager/.env")
+	err := godotenv.Load("./Password-manager/.env")
 	if err != nil {
-		panic(err)
+		return err.Error()
 	}
 
 	if value := os.Getenv(key); value != "" {

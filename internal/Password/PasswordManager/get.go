@@ -3,11 +3,12 @@ package pmanage
 import (
 	"fmt"
 	password "password-manager/internal/Password"
+	errorConst "password-manager/pkg/Error"
 )
 
 func (pm *PasswordManager) GetPassword(name string) (password.Password, error) {
 	if !pm.isInitialized {
-		return password.Password{}, fmt.Errorf("password manager uninitialized")
+		return password.Password{}, fmt.Errorf(errorConst.PassUninit)
 	}
 
 	var passwords []password.Password
@@ -17,11 +18,7 @@ func (pm *PasswordManager) GetPassword(name string) (password.Password, error) {
 
 	for _, v := range passwords {
 		if v.Name == name {
-			if v.Value == "" {
-				return password.Password{}, fmt.Errorf("the password is missing")
-			} else {
-				return v, nil
-			}
+			return v, nil
 		}
 	}
 
@@ -53,6 +50,10 @@ func (pm *PasswordManager) GetPasswordStats() (map[string]interface{}, error) {
 		return nil, err
 	}
 
+	if passwords == nil {
+		return nil, fmt.Errorf(errorConst.PassNotFound)
+	}
+
 	stats["total_passwords"] = len(passwords)
 
 	categories, err := pm.ListCategories()
@@ -60,13 +61,20 @@ func (pm *PasswordManager) GetPasswordStats() (map[string]interface{}, error) {
 		return nil, err
 	}
 
+	pass, err := pm.ListPassword()
+	if err != nil {
+		return nil, err
+	}
+
 	countCategory := make(map[string]int)
 	for _, category := range categories {
-		pass, err := pm.GetPasswordsByCategory(category)
-		if err != nil {
-			return nil, err
+		var passwords []password.Password
+		for _, p := range pass {
+			if p.Category == category {
+				passwords = append(passwords, p)
+			}
 		}
-		count := len(pass)
+		count := len(passwords)
 		countCategory[category] = count
 	}
 	stats["categories"] = countCategory

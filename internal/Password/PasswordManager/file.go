@@ -9,12 +9,13 @@ import (
 	"io"
 	"os"
 	password "password-manager/internal/Password"
+	errorConst "password-manager/pkg/Error"
 	ui "password-manager/pkg/UI"
 )
 
 func (pm *PasswordManager) SaveToFile() error {
 	if !pm.isInitialized {
-		return fmt.Errorf("password manager uninitialized")
+		return fmt.Errorf(errorConst.PassUninit)
 	}
 
 	var passwords []password.Password
@@ -55,14 +56,12 @@ func (pm *PasswordManager) SaveToFile() error {
 		return fmt.Errorf("failed write data: %v", err)
 	}
 
-	ui.ShowSuccess("Passwords saved successfully")
-
 	return nil
 }
 
 func (pm *PasswordManager) LoadFromFile() error {
 	if !pm.isInitialized {
-		return fmt.Errorf("password manager uninitialized")
+		return fmt.Errorf(errorConst.PassUninit)
 	}
 
 	// Проверяем существование и размер файла
@@ -122,8 +121,6 @@ func (pm *PasswordManager) LoadFromFile() error {
 			return fmt.Errorf("failed save password: %v", err)
 		}
 	}
-
-	ui.ShowSuccess(fmt.Sprintf("Loaded %d passwords from file\n", len(passwords)))
 
 	return nil
 }

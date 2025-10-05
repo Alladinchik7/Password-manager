@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	handle "password-manager/internal/Handler"
 	pmanage "password-manager/internal/Password/PasswordManager"
@@ -15,11 +14,12 @@ import (
 func main() {
 	ui.ClearScreen()
 	if err := opendb.Init(); err != nil {
-		log.Fatal("❌ Database initialization failed: ", err)
+		ui.ShowError(fmt.Errorf("❌ Database initialization failed: %v", err))
+		return
 	}
-	log.Println("Database initialization ✅")
+	ui.ShowSuccess("Database initialization ✅")
 
-	path := "C:/Users/user/Desktop/PetProject/Password-manager/cmd/manage.dat"
+	path := "./Password-manager/cmd/manage.dat"
 	pm := pmanage.NewPasswordManager(path)
 
 	fmt.Println("=== Password Manager Initialization ===")
@@ -34,7 +34,7 @@ func main() {
 		ui.ShowError(fmt.Errorf("master error: %v", err))
 		return
 	}
-	ui.ShowSuccess("Master password set successfuly")
+	ui.ShowSuccess("Master password set successfully")
 
 	if err := pm.LoadFromFile(); err != nil && !os.IsNotExist(err) {
 		ui.ShowError(fmt.Errorf("file error: %v", err))
@@ -46,12 +46,12 @@ func main() {
 
 	for {
 		output.ShowMainMenu()
-		input, err := input.ReadUserInput("Enter: ")
+		in, err := input.ReadUserInput("Enter: ")
 		if err != nil {
 			ui.ShowError(err)
 		}
 
-		switch input {
+		switch in {
 		case "1":
 			if err := handle.HandlePasswordGeneration(pm); err != nil {
 				ui.ShowError(err)

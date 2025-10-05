@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"log"
 	password "password-manager/internal/Password"
+	errorConst "password-manager/pkg/Error"
 	"time"
 )
 
 func (pm *PasswordManager) SavePassword(pass password.Password) error {
 	if !pm.isInitialized {
-		return fmt.Errorf("password manager uninitialized")
+		return fmt.Errorf(errorConst.PassUninit)
 	}
 
 	var passwords []password.Password
@@ -32,7 +33,7 @@ func (pm *PasswordManager) SavePassword(pass password.Password) error {
 
 func (pm *PasswordManager) UpdatePassword(name, newValue string) error {
 	if !pm.isInitialized {
-		return fmt.Errorf("password manager uninitialized")
+		return fmt.Errorf(errorConst.PassUninit)
 	}
 
 	pass, err := pm.GetPassword(name)
@@ -55,7 +56,7 @@ func (pm *PasswordManager) UpdatePassword(name, newValue string) error {
 
 func (pm *PasswordManager) DeletePassword(name string) error {
 	if !pm.isInitialized {
-		return fmt.Errorf("password manager uninitialized")
+		return fmt.Errorf(errorConst.PassUninit)
 	}
 
 	var passwords []password.Password
@@ -63,10 +64,15 @@ func (pm *PasswordManager) DeletePassword(name string) error {
 		return err
 	}
 
+	flag := false
 	for _, v := range passwords {
-		if v.Name != name {
-			return fmt.Errorf("password not found")
+		if v.Name == name {
+			flag = true
 		}
+	}
+
+	if !flag {
+		return fmt.Errorf("password not found")
 	}
 
 	if tx := pm.Passwords.DB.Delete(passwords, name); tx.Error != nil {

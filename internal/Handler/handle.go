@@ -29,7 +29,7 @@ func HandlePasswordGeneration(pm *pmanage.PasswordManager) error {
 		return err
 	}
 
-	ui.ShowSuccess("Password generate successfuly:")
+	ui.ShowSuccess("Password generate successfully:")
 	fmt.Println("Password: ", pass)
 	ui.WaitForEnter()
 
@@ -56,10 +56,6 @@ func HandlePasswordAdd(pm *pmanage.PasswordManager) error {
 		}
 	} else {
 		err := HandlePasswordGeneration(pm)
-		if err != nil {
-			return err
-		}
-		inputPass, err = input.ReadPassword()
 		if err != nil {
 			return err
 		}
@@ -202,10 +198,6 @@ func HandlePasswordUpdate(pm *pmanage.PasswordManager) error {
 		if err != nil {
 			return err
 		}
-		inputPass, err = input.ReadPassword()
-		if err != nil {
-			return err
-		}
 	}
 
 	if err := pm.UpdatePassword(service, inputPass); err != nil {
@@ -228,7 +220,7 @@ func HandleExitAndSave(pm *pmanage.PasswordManager) error {
 
 	ui.ShowSuccess("Passwords saved to file")
 
-	fmt.Println("Bay, bay...")
+	fmt.Println("Bye, bye...")
 
 	return nil
 }
