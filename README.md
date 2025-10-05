@@ -143,43 +143,7 @@ Please enter category: Development
    • Newest: 2024-03-20
 ```
 
-## 📁 Структура проекта
-
-```mardown
-password-manager/
-├── cmd/
-│   └── main.go                 # Точка входа приложения
-├── internal/
-│   ├── Handler/                # Обработчики команд
-│   │   └── handler.go
-│   └── Password/
-│       ├── PasswordManager/    # Логика менеджера паролей
-│       │   ├── manager.go      # Основная логика
-│       │   ├── encryption.go   # Шифрование/дешифрование
-│       │   ├── storage.go      # Работа с хранилищем
-│       │   └── utils.go        # Вспомогательные функции
-│       └── password.go         # Модель пароля
-├── pkg/
-│   ├── DB/
-│   │   ├── config/            # Конфигурация БД
-│   │   └── opendb/            # Инициализация БД
-│   └── UI/
-│       ├── ui.go              # Утилиты интерфейса
-│       ├── Input/             # Ввод данных
-│       └── Output/            # Вывод данных
-├── go.mod
-├── go.sum
-└── README.md
-```
-
 ## 🗂️ Описание ключевых компонентов
-
-### PasswordManager
-
-- **manager.go** - основная бизнес-логика приложения
-- **encryption.go** - AES-GCM шифрование для защиты данных
-- **storage.go** - работа с файловым хранилищем
-- **utils.go** - генерация паролей и аналитика
 
 ### База данных
 
